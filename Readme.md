@@ -11,6 +11,55 @@ Este README funciona como punto de entrada para entender:
 - qué documentación, agentes y configuraciones deben consultarse antes de modificar o extender el entorno,
 - qué herramientas y flujos operativos se usan para desarrollo, despliegue y validación.
 
+## Indice
+
+1. Contexto y mapa:
+[Mapa general del workspace](#mapa-general-del-workspace)
+[Proyectos principales](#proyectos-principales)
+[Soportes y artefactos transversales](#soportes-y-artefactos-transversales)
+
+2. Onboarding funcional y tecnico:
+[Guia rapida util: MentalF, Figma y Vistas](#guia-rapida-util-mentalf-figma-y-vistas)
+[Tabla comparativa de onboarding rapido](#tabla-comparativa-de-onboarding-rapido)
+[MentalF (mapa tecnico y diagrama BD)](#mentalf-mapa-tecnico-y-diagrama-bd)
+[Figma (propuestas de diseno y especificaciones)](#figma-propuestas-de-diseno-y-especificaciones)
+[Vistas (prototipado local BD/UI)](#vistas-prototipado-local-bdui)
+[Requerimientos (analisis funcional y tecnico)](#requerimientos-analisis-funcional-y-tecnico)
+[Recomendacion practica de uso conjunto](#recomendacion-practica-de-uso-conjunto)
+
+3. Flujo de agentes y ejecucion:
+[Agentes, instrucciones y estandares](#agentes-instrucciones-y-estandares)
+[Documentos de referencia principales](#documentos-de-referencia-principales)
+[Repositorios con instrucciones especificas](#repositorios-con-instrucciones-especificas)
+[Diagrama de secuencia de agentes NEXO](#diagrama-de-secuencia-de-agentes-nexo)
+[Leyenda visual de roles y agentes](#leyenda-visual-de-roles-y-agentes)
+[Flujo separado: Microservicio (MS)](#flujo-separado-microservicio-ms)
+[Flujo separado: BFF](#flujo-separado-bff)
+[Flujo separado: Migraciones](#flujo-separado-migraciones)
+[Ejemplos de consumo de agentes (casos reales)](#ejemplos-de-consumo-de-agentes-casos-reales)
+[Ejemplo 1: consumo principal (MS desde requerimiento real)](#ejemplo-1-consumo-principal-ms-desde-requerimiento-real)
+[Ejemplo 2: consumo BD + migraciones (tabla/instrucciones)](#ejemplo-2-consumo-bd--migraciones-tablainstrucciones)
+[Ejemplo 3: consumo BFF downstream (bandeja investigador)](#ejemplo-3-consumo-bff-downstream-bandeja-investigador)
+[Plantillas reutilizables de prompt (MS, BFF, DB)](#plantillas-reutilizables-de-prompt-ms-bff-db)
+[Plantilla MS (microservicio)](#plantilla-ms-microservicio)
+[Plantilla BFF (downstream)](#plantilla-bff-downstream)
+[Plantilla DB + migraciones](#plantilla-db--migraciones)
+[Diseno y prompts de apoyo](#diseno-y-prompts-de-apoyo)
+
+4. Operacion diaria:
+[Configuraciones y artefactos de operacion](#configuraciones-y-artefactos-de-operacion)
+[Contenedores y entorno local](#contenedores-y-entorno-local)
+[Pipelines y automatizacion](#pipelines-y-automatizacion)
+[Migracion y validacion](#migracion-y-validacion)
+[Plan de trabajo diario y uso de la herramienta](#plan-de-trabajo-diario-y-uso-de-la-herramienta)
+[Plan semanal sugerido (lunes a viernes)](#plan-semanal-sugerido-lunes-a-viernes)
+[Rutina diaria sugerida (practica)](#rutina-diaria-sugerida-practica)
+[Uso de la herramienta en el dia a dia](#uso-de-la-herramienta-en-el-dia-a-dia)
+[Herramienta de registro diario (cuadricula calendario)](#herramienta-de-registro-diario-cuadricula-calendario)
+[Checklist de cierre diario](#checklist-de-cierre-diario)
+[Reglas recomendadas de trabajo](#reglas-recomendadas-de-trabajo)
+[Siguiente paso sugerido](#siguiente-paso-sugerido)
+
 ## Mapa general del workspace
 
 ### Proyectos principales
@@ -50,16 +99,18 @@ Esta sección resume qué usar, cuándo usarlo y dónde están los archivos clav
 
 | Herramienta | Cuándo usarla | Entrada mínima | Salida esperada | Tiempo estimado inicial |
 |---|---|---|---|---|
+| Requerimientos (PDI) | Definir alcance funcional/técnico, riesgos y criterio de validación antes de implementar | ID Jira/PDI, contexto de negocio y alcance preliminar | Carpeta versionada por requerimiento con análisis, diseño, estimación y plan de validación | 20-40 min |
 | MentalF | Entender modelo BD, relaciones y dependencias antes de MS/BFF | Migraciones actualizadas y alcance funcional (PDI/historia) | Diagramas y vistas técnicas versionadas para análisis | 15-30 min |
 | Vistas (v4.1 recomendado) | Prototipar formularios, maestro-detalle y payload local | Schema extraído y tabla/caso de uso objetivo | Pantalla ejecutable local + JSON exportable versionado | 20-45 min |
 | Figma | Formalizar propuesta visual y especificaciones para desarrollo | Objetivo UX, audiencia, estilo y componentes clave | Propuesta versionada + análisis + especificaciones técnicas | 30-60 min |
 
 Ruta sugerida para onboarding:
 
-1. Ejecutar MentalF para comprender el modelo de datos.
-2. Levantar Vistas v4.1 para validar interacción y estructura.
-3. Cerrar en Figma con propuesta y especificaciones.
-4. Pasar a implementación MS/BFF con OpenAPI y Postman.
+1. Documentar análisis de requerimiento (alcance, supuestos y validación) en `requerimientos/`.
+2. Ejecutar MentalF para comprender el modelo de datos.
+3. Levantar Vistas v4.1 para validar interacción y estructura.
+4. Cerrar en Figma con propuesta y especificaciones.
+5. Pasar a implementación MS/BFF con OpenAPI y Postman.
 
 #### MentalF (mapa técnico y diagrama BD)
 
@@ -137,12 +188,43 @@ Integración con migraciones:
 - Comando: `./extract-schema-from-sip-migrations.ps1`
 - Salida esperada: `data/schema.from.sip-bd-migrations.json`
 
+#### Requerimientos (análisis funcional y técnico)
+
+Cuándo usarlo:
+
+- Cuando el requerimiento aún no tiene alcance cerrado y se necesita una base técnica versionada.
+- Cuando se debe dejar trazabilidad por ID (PDI/Jira) antes de implementar en MS, BFF o migraciones.
+
+Enlaces rápidos:
+
+- [requerimientos/README.md](./requerimientos/README.md)
+- [requerimientos/PDI-967](./requerimientos/PDI-967/)
+- [requerimientos/PDI-1059](./requerimientos/PDI-1059/)
+- [requerimientos/PDI-1071](./requerimientos/PDI-1071/)
+
+Flujo corto recomendado:
+
+1. Crear carpeta `{ID}/v{N}` para el requerimiento (por ejemplo, `PDI-1071/v1`).
+2. Completar entregables mínimos: contexto, alcance/impacto, diseño técnico-funcional, estimación y plan de validación.
+3. Validar supuestos y vacíos antes de tocar código.
+4. Referenciar esta versión del análisis en el PR o en la documentación de implementación.
+
+Entregables mínimos por versión:
+
+- `00_contexto_fuente.md`
+- `01_analisis_alcance_impacto.md`
+- `02_diseno_funcional_tecnico.md`
+- `03_estimacion_tiempos.md`
+- `04_plan_validacion.md`
+- `diagramas/*.puml`
+
 #### Recomendación práctica de uso conjunto
 
-1. MentalF para entender modelo y dependencias.
-2. Vistas para validar interacción y estructura de pantalla.
-3. Figma para cerrar propuesta visual y especificaciones.
-4. MS/BFF para implementar contrato, pruebas, OpenAPI y Postman.
+1. Requerimientos para cerrar alcance, supuestos y validación esperada.
+2. MentalF para entender modelo y dependencias.
+3. Vistas para validar interacción y estructura de pantalla.
+4. Figma para cerrar propuesta visual y especificaciones.
+5. MS/BFF para implementar contrato, pruebas, OpenAPI y Postman.
 
 ## Agentes, instrucciones y estándares
 
@@ -560,6 +642,98 @@ Este workspace también incluye configuraciones y scripts que facilitan el despl
 - [migration_postgres/scripts/01_export_schema_and_seeds.ps1](./migration_postgres/scripts/01_export_schema_and_seeds.ps1)
 - [migration_postgres/scripts/02_convert_sqlserver_to_postgres.ps1](./migration_postgres/scripts/02_convert_sqlserver_to_postgres.ps1)
 - [migration_postgres/scripts/03_validate_postgres_sql.ps1](./migration_postgres/scripts/03_validate_postgres_sql.ps1)
+
+## Plan de trabajo diario y uso de la herramienta
+
+Este plan busca mantener trazabilidad por requerimiento, foco tecnico y entregas cortas con evidencia.
+
+### Plan semanal sugerido (lunes a viernes)
+
+1. Lunes: planificacion y alcance.
+	confirmar prioridades, revisar requerimientos activos y cerrar objetivos semanales por ID.
+2. Martes: analisis tecnico y diseno.
+	resolver vacios de datos/contrato, dejar decisiones en requerimientos/{ID}/v{N}.
+3. Miercoles: implementacion foco 1.
+	entregar un bloque funcional completo con pruebas minimas.
+4. Jueves: implementacion foco 2 + integracion.
+	completar integraciones pendientes (MS/BFF/BD) y ajustar contrato/documentacion.
+5. Viernes: validacion y cierre.
+	ejecutar validaciones finales, actualizar evidencias y preparar resumen para seguimiento.
+
+### Rutina diaria sugerida (practica)
+
+1. Inicio de jornada (10-15 min):
+	revisar requerimientos activos en `requerimientos/{ID}/v{N}`, confirmar alcance del dia y bloqueadores.
+2. Analisis rapido (20-30 min):
+	validar si hay vacios en alcance, datos o contratos antes de editar codigo.
+3. Implementacion por bloques (60-120 min c/u):
+	trabajar en una sola unidad funcional (MS, BFF o migracion) con pruebas y docs minimas del bloque.
+4. Validacion continua (15-30 min):
+	ejecutar pruebas relevantes, revisar contratos OpenAPI y actualizar artefactos Postman cuando aplique.
+5. Cierre de jornada (15-20 min):
+	documentar avance real, pendientes y riesgos en la version del requerimiento.
+
+### Uso de la herramienta en el dia a dia
+
+1. Para iniciar un requerimiento:
+	pedir al agente un analisis de alcance e impacto y crear/actualizar `requerimientos/{ID}/v{N}`.
+2. Para ejecutar implementacion:
+	solicitar cambios acotados por capa o componente (Application, Infrastructure, Api, pruebas).
+3. Para QA tecnico:
+	pedir verificacion de contrato OpenAPI, casos de prueba y trazabilidad con Postman.
+4. Para migraciones:
+	solicitar script ordenado por dependencias, conversion SQL Server -> PostgreSQL y reporte de validacion.
+5. Para documentacion:
+	pedir actualizacion de README y checklist en la misma tarea para no perder contexto.
+
+### Herramienta de registro diario (cuadricula calendario)
+
+Para registrar el trabajo diario y facilitar dailys, usar esta ruta:
+
+- [requerimientos/registro-diario/README.md](./requerimientos/registro-diario/README.md)
+- [requerimientos/registro-diario/TEMPLATE_REGISTRO_MENSUAL.md](./requerimientos/registro-diario/TEMPLATE_REGISTRO_MENSUAL.md)
+- [requerimientos/registro-diario/scripts/generar-registro-mensual.ps1](./requerimientos/registro-diario/scripts/generar-registro-mensual.ps1)
+
+Uso sugerido:
+
+1. Generar el archivo del mes con el script.
+2. Completar diariamente la cuadricula (resumen rapido) y el detalle por fecha.
+3. Usar la seccion de resumen para daily como base de comunicacion al equipo.
+
+Comandos listos para usar:
+
+```powershell
+# Mes actual
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "c:/Projects/requerimientos/registro-diario/scripts/generar-registro-mensual.ps1"
+
+# Mes especifico
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "c:/Projects/requerimientos/registro-diario/scripts/generar-registro-mensual.ps1" -Year 2026 -Month 8
+```
+
+Ubicacion de salida:
+
+- `requerimientos/registro-diario/registros/REGISTRO-YYYY-MM.md`
+
+Ritmo recomendado de uso diario:
+
+1. Antes del daily (5 min): llenar "Plan del dia" y revisar "Siguiente paso" del dia anterior.
+2. Durante el trabajo: actualizar la cuadricula con un resumen corto del avance.
+3. Cierre del dia (10 min): completar "Realizado", "Bloqueos" y "Resumen para daily".
+4. Viernes: consolidar en "Cierre semanal" para compartir estado y riesgos al equipo.
+
+Buenas practicas:
+
+1. Escribir avances concretos por resultado, no por horas.
+2. Registrar bloqueos con propietario y accion siguiente.
+3. Mantener consistencia entre lo reportado en daily y el detalle del registro.
+
+### Checklist de cierre diario
+
+1. Requerimiento versionado actualizado con decisiones y supuestos.
+2. Codigo y pruebas del bloque del dia listos o con estado explicito.
+3. Contrato/documentacion sincronizados con lo implementado.
+4. Riesgos y bloqueadores registrados con siguiente accion propuesta.
+5. Siguiente paso del dia siguiente definido en una linea.
 
 ## Reglas recomendadas de trabajo
 

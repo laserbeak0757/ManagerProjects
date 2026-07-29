@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GeneratePostmanCollection")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8314e9b794b12aa523cc1764180fbce49a4c7bc5")]
 [assembly: System.Reflection.AssemblyProductAttribute("GeneratePostmanCollection")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GeneratePostmanCollection")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
