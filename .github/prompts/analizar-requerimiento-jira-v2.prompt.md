@@ -6,6 +6,13 @@ description: "Analiza un requerimiento Jira y genera paquete versionado con alca
 
 Analiza el requerimiento Jira indicado y genera documentacion versionada por ID en la raiz de Projects.
 
+## Reglas operativas obligatorias
+
+- Jira es solo fuente de lectura. No escribir comentarios ni editar campos.
+- Analizar primero el contexto tecnico del repositorio objetivo.
+- Validar dependencias de base de datos o consultas cuando el alcance toque persistencia.
+- Dejar la salida en `requerimientos/{id}/{version}` con versionado inmutable.
+
 ## Input
 
 - id: PDI-XXXX
@@ -33,6 +40,7 @@ Analiza el requerimiento Jira indicado y genera documentacion versionada por ID 
 - impacto por componente (Front/BFF/MS/DB/QA)
 - riesgos, supuestos, dependencias y preguntas abiertas
 - criterios de aceptacion trazables
+- vacios funcionales y preguntas de refinamiento antes de codificar
 
 ## Reglas de estimacion
 

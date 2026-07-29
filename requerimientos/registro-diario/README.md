@@ -11,6 +11,7 @@ Esta carpeta contiene una herramienta simple para llevar registro diario con for
 ## Contenido
 
 - TEMPLATE_REGISTRO_MENSUAL.md
+- agentes-alias.json
 - scripts/generar-registro-mensual.ps1
 
 ## Uso rapido
@@ -29,7 +30,20 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "c:/Projects/requerimien
 4. Completar cada dia:
 
 - Cuadricula mensual (resumen rapido por dia).
-- Detalle diario (plan, realizado, bloqueos, siguiente paso, resumen para daily).
+- Detalle diario (actividad, agente amigable, agente real, prompt, plan, realizado, bloqueos, siguiente paso, resumen para daily).
+
+## Alias amigables de agentes
+
+Para que el registro sea mas claro, usar estos nombres amigables cuando se registre una actividad diaria:
+
+- Analizar caso -> NEXO Requerimiento Analisis
+- Analisis de requerimientos -> NEXO Requerimiento Analisis
+- Analisis de base de datos -> NEXO DB Analysis
+- Implementacion MS -> NEXO MS From Table
+- Implementacion BFF -> NEXO BFF Downstream
+- QA y validacion -> NEXO Postman and QA Pack
+
+La fuente de referencia queda en `agentes-alias.json`.
 
 ## Parametros opcionales
 

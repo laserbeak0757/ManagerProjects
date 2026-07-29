@@ -1,0 +1,29 @@
+@startuml
+title PDI-1634 - Flujo critico registrar actividad policial
+
+actor Usuario as U
+participant "API\nActividadInvestigativaController" as API
+participant "UseCase\nCreateActividadInvestigativa" as UC
+participant "Validator\nCreateActividadInvestigativaCommandValidator" as VAL
+participant "Repository\nActividadInvestigativaRepository" as REPO
+database "SQL Server\ndiligencias.crear_actividad_investigativa" as DB
+
+U -> API : POST /ms/actividades + payload
+API -> UC : ExecuteAsync(command, ct)
+UC -> VAL : ValidateAndThrow(command)
+
+alt payload invalido
+    VAL --> UC : ValidationException
+    UC --> API : error
+    API --> U : 400
+else payload valido
+    VAL --> UC : ok
+    UC -> REPO : CreateActividadInvestigativaAsync(idUsuario, entidad, ct)
+    REPO -> DB : EXEC diligencias.crear_actividad_investigativa
+    DB --> REPO : id_actividad
+    REPO --> UC : ActividadInvestigativa creada
+    UC --> API : DTO
+    API --> U : 201 + ApiResponse<ActividadInvestigativaResponse>
+end
+
+@enduml

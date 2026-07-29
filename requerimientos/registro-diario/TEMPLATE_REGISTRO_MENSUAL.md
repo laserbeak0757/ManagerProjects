@@ -20,6 +20,10 @@
 
 ### YYYY-MM-DD (Dia)
 
+- Actividad:
+- Agente amigable:
+- Agente real:
+- Prompt / entrada:
 - Plan del dia:
 - Realizado:
 - Bloqueos:
@@ -28,6 +32,10 @@
 
 ### YYYY-MM-DD (Dia)
 
+- Actividad:
+- Agente amigable:
+- Agente real:
+- Prompt / entrada:
 - Plan del dia:
 - Realizado:
 - Bloqueos:
@@ -36,6 +44,10 @@
 
 ### YYYY-MM-DD (Dia)
 
+- Actividad:
+- Agente amigable:
+- Agente real:
+- Prompt / entrada:
 - Plan del dia:
 - Realizado:
 - Bloqueos:

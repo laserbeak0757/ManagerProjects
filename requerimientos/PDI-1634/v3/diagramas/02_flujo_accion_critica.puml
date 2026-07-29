@@ -1,0 +1,29 @@
+@startuml
+title PDI-1634 v3 - Registrar actividad policial
+
+actor Usuario as U
+participant API as "ActividadInvestigativaController"
+participant USE as "CreateActividadInvestigativaUseCase"
+participant VAL as "CommandValidator"
+participant REPO as "ActividadInvestigativaRepository"
+database DB as "SP diligencias.crear_actividad_investigativa"
+
+U -> API : POST /ms/actividades
+API -> USE : ExecuteAsync(command)
+USE -> VAL : ValidateAndThrow(command)
+
+alt comando invalido
+  VAL --> USE : ValidationException
+  USE --> API : error validacion
+  API --> U : 400
+else comando valido
+  VAL --> USE : ok
+  USE -> REPO : CreateActividadInvestigativaAsync(...)
+  REPO -> DB : EXEC crear_actividad_investigativa
+  DB --> REPO : id_actividad
+  REPO --> USE : entidad creada
+  USE --> API : response dto
+  API --> U : 201
+end
+
+@enduml

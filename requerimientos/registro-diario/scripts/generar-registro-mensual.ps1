@@ -68,6 +68,10 @@ function Build-DailySections([datetime]$startDate, [datetime]$endDate) {
 
             $lines += "### {0:yyyy-MM-dd} ({1})" -f $cursor, $dayName
             $lines += ""
+            $lines += "- Actividad:"
+            $lines += "- Agente amigable:"
+            $lines += "- Agente real:"
+            $lines += "- Prompt / entrada:"
             $lines += "- Plan del dia:"
             $lines += "- Realizado:"
             $lines += "- Bloqueos:"
@@ -85,6 +89,18 @@ function Build-DailySections([datetime]$startDate, [datetime]$endDate) {
 $content = @()
 $content += "# Registro diario $monthId"
 $content += ""
+$aliasFile = Join-Path $PSScriptRoot "..\agentes-alias.json"
+if (Test-Path -LiteralPath $aliasFile) {
+    $aliasMap = Get-Content -LiteralPath $aliasFile -Raw | ConvertFrom-Json
+    $content += "## Alias de agentes para registro diario"
+    $content += ""
+    foreach ($key in $aliasMap.PSObject.Properties.Name) {
+        $entry = $aliasMap.$key
+        $content += "- $($entry.friendlyName) -> $($entry.agent)"
+    }
+    $content += ""
+}
+
 $content += "## Objetivo del mes"
 $content += ""
 $content += "- Objetivo 1:"
@@ -137,6 +153,7 @@ $content += "- Riesgos:"
 $content += "- Decisiones:"
 $content += "- Pendientes abiertos:"
 
-$content -join [Environment]::NewLine | Set-Content -LiteralPath $outputFile -Encoding UTF8
+$utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+[System.IO.File]::WriteAllText($outputFile, ($content -join [Environment]::NewLine), $utf8NoBom)
 
 Write-Host "Registro generado: $outputFile"

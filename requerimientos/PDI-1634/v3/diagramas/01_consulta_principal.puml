@@ -1,0 +1,19 @@
+@startuml
+title PDI-1634 v3 - Consulta principal por diligencia
+
+actor Usuario as U
+participant API as "ActividadInvestigativaController"
+participant UC as "GetActividadByIdDiligenciaUseCase"
+participant REPO as "ActividadInvestigativaRepository"
+database DB as "SP diligencias.obtener_actividad_investigativa"
+
+U -> API : GET /ms/actividades/diligencia/{idDiligencia}/{idUsuario}
+API -> UC : ExecuteAsync(query)
+UC -> REPO : GetAsync(idUsuario, idDiligencia)
+REPO -> DB : EXEC obtener_actividad_investigativa
+DB --> REPO : lista de actividades
+REPO --> UC : entidades
+UC --> API : DTOs
+API --> U : 200 + ApiResponse
+
+@enduml

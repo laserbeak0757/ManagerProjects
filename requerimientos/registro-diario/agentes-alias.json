@@ -1,0 +1,32 @@
+{
+  "analizar-caso": {
+    "friendlyName": "Analizar caso",
+    "agent": "NEXO Requerimiento Analisis",
+    "prompt": "Analizar alcance, impacto y validacion para el requerimiento"
+  },
+  "analisis-requerimientos": {
+    "friendlyName": "Analisis de requerimientos",
+    "agent": "NEXO Requerimiento Analisis",
+    "prompt": "Analizar alcance, impacto, supuestos y validacion del requerimiento"
+  },
+  "analisis-bd": {
+    "friendlyName": "Analisis de base de datos",
+    "agent": "NEXO DB Analysis",
+    "prompt": "Analizar tablas, llaves, dependencias y orden SQL"
+  },
+  "implementacion-ms": {
+    "friendlyName": "Implementacion MS",
+    "agent": "NEXO MS From Table",
+    "prompt": "Implementar la solucion en el microservicio con pruebas y documentacion"
+  },
+  "implementacion-bff": {
+    "friendlyName": "Implementacion BFF",
+    "agent": "NEXO BFF Downstream",
+    "prompt": "Implementar endpoint BFF con consumo downstream, pruebas y contrato"
+  },
+  "qa-validacion": {
+    "friendlyName": "QA y validacion",
+    "agent": "NEXO Postman and QA Pack",
+    "prompt": "Validar OpenAPI, Postman y checklist de aceptacion"
+  }
+}

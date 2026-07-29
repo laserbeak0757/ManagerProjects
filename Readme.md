@@ -32,15 +32,19 @@ Este README funciona como punto de entrada para entender:
 [Documentos de referencia principales](#documentos-de-referencia-principales)
 [Repositorios con instrucciones especificas](#repositorios-con-instrucciones-especificas)
 [Diagrama de secuencia de agentes NEXO](#diagrama-de-secuencia-de-agentes-nexo)
+[Diagrama de secuencia de análisis](#diagrama-de-secuencia-de-análisis)
+[Análisis de requerimiento](#análisis-de-requerimiento)
+[Casos de uso y ejemplos de consumo](#casos-de-uso-y-ejemplos-de-consumo)
 [Leyenda visual de roles y agentes](#leyenda-visual-de-roles-y-agentes)
 [Flujo separado: Microservicio (MS)](#flujo-separado-microservicio-ms)
 [Flujo separado: BFF](#flujo-separado-bff)
 [Flujo separado: Migraciones](#flujo-separado-migraciones)
-[Ejemplos de consumo de agentes (casos reales)](#ejemplos-de-consumo-de-agentes-casos-reales)
+[Casos de uso y ejemplos de consumo](#casos-de-uso-y-ejemplos-de-consumo)
 [Ejemplo 1: consumo principal (MS desde requerimiento real)](#ejemplo-1-consumo-principal-ms-desde-requerimiento-real)
 [Ejemplo 2: consumo BD + migraciones (tabla/instrucciones)](#ejemplo-2-consumo-bd--migraciones-tablainstrucciones)
 [Ejemplo 3: consumo BFF downstream (bandeja investigador)](#ejemplo-3-consumo-bff-downstream-bandeja-investigador)
-[Plantillas reutilizables de prompt (MS, BFF, DB)](#plantillas-reutilizables-de-prompt-ms-bff-db)
+[Plantillas reutilizables de prompt (Analisis, MS, BFF, DB)](#plantillas-reutilizables-de-prompt-analisis-ms-bff-db)
+[Plantilla Analisis de requerimiento](#plantilla-analisis-de-requerimiento)
 [Plantilla MS (microservicio)](#plantilla-ms-microservicio)
 [Plantilla BFF (downstream)](#plantilla-bff-downstream)
 [Plantilla DB + migraciones](#plantilla-db--migraciones)
@@ -143,17 +147,21 @@ Cuándo usarlo:
 Enlaces rápidos:
 
 - [Figma/QUICK_START.md](./Figma/QUICK_START.md)
-- [Figma/WORKFLOW_VISUAL.md](./Figma/WORKFLOW_VISUAL.md)
+- [Figma/WORKFLOW_VISUAL.md](./Figma/WORKFLOW_VISUAL.md) — flujo visual y prompts alineados al orden del diagrama
 - [Figma/prompts/PROMPT_PROPUESTA_DISEÑO.md](./Figma/prompts/PROMPT_PROPUESTA_DISEÑO.md)
 - [Figma/prompts/AGENTE_FIGMA_INSTRUCTIONS.md](./Figma/prompts/AGENTE_FIGMA_INSTRUCTIONS.md)
 - [Figma/propuestas/TEMPLATE_PROPUESTA.json](./Figma/propuestas/TEMPLATE_PROPUESTA.json)
 
 Flujo corto recomendado:
 
-1. Crear propuesta inicial (v1).
-2. Analizar propuesta y documentar hallazgos.
-3. Iterar (v1.1, v2) según feedback.
-4. Exportar especificaciones técnicas para desarrollo.
+1. Crear propuesta inicial (v1) — usar el Prompt 1 desde [Figma/QUICK_START.md](./Figma/QUICK_START.md).
+2. Analizar propuesta y documentar hallazgos — usar el Prompt 2 desde [Figma/WORKFLOW_VISUAL.md](./Figma/WORKFLOW_VISUAL.md).
+3. Decidir si se aprueba o si requiere mejoras — esta decisión marca si se sigue al paso 5 o al paso 4.
+4. Iterar (v1.1, v2) según feedback — usar el Prompt 3 para mejorar la propuesta.
+5. Exportar especificaciones técnicas para desarrollo — usar el Prompt 4.
+6. Versionar y dejar la propuesta lista para desarrollo.
+
+Orden visual de prompts (coincide con el diagrama): crear → analizar → decidir → mejorar → exportar → versionar.
 
 #### Vistas (prototipado local BD/UI)
 
@@ -362,6 +370,58 @@ sequenceDiagram
 	O-->>U: Entrega final con evidencias
 ```
 
+#### Diagrama de secuencia de análisis
+
+Este flujo resume la etapa inicial de análisis de alcance, impacto y validación antes de pasar a implementación. Es útil cuando el requerimiento aún está en definición o cuando se necesita dejar una base técnica clara para MS, BFF o migraciones.
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {
+	'background': '#0B1220',
+	'primaryColor': '#1F2937',
+	'primaryTextColor': '#F9FAFB',
+	'primaryBorderColor': '#60A5FA',
+	'lineColor': '#93C5FD',
+	'secondaryColor': '#0F172A',
+	'tertiaryColor': '#111827',
+	'actorBkg': '#111827',
+	'actorTextColor': '#E5E7EB',
+	'actorBorder': '#60A5FA',
+	'signalColor': '#93C5FD',
+	'signalTextColor': '#E5E7EB',
+	'activationBkgColor': '#1D4ED8',
+	'activationBorderColor': '#93C5FD',
+	'sequenceNumberColor': '#FDE68A',
+	'noteBkgColor': '#1F2937',
+	'noteTextColor': '#F9FAFB',
+	'noteBorderColor': '#60A5FA'
+}}}%%
+sequenceDiagram
+	autonumber
+	actor U as Usuario
+	participant O as Orquestador
+	participant RA as NEXO Requerimiento Analisis
+	participant DBA as NEXO DB Analysis
+	participant MS as NEXO MS From Table
+	participant BFF as NEXO BFF Downstream
+	participant QA as NEXO Postman and QA Pack
+
+	U->>O: Solicita requerimiento o historia
+	O->>RA: Analizar alcance, impacto y supuestos
+	RA-->>O: Documento versionado con alcance y riesgos
+	O->>DBA: Revisar esquema, llaves y orden SQL
+	DBA-->>O: Modelo de datos y dependencias validados
+	alt Implementación en microservicio
+		O->>MS: Preparar contexto técnico para implementación
+		MS-->>O: Alcance y tareas de desarrollo listos
+	else Implementación en BFF
+		O->>BFF: Preparar contexto técnico para endpoint downstream
+		BFF-->>O: Contrato y tareas de integración listas
+	end
+	O->>QA: Definir checklist de validación y artefactos
+	QA-->>O: Evidencias, OpenAPI y Postman base
+	O-->>U: Entrega de análisis con siguiente paso claro
+```
+
 ---
 
 #### Flujo separado: Microservicio (MS)
@@ -499,11 +559,61 @@ sequenceDiagram
 
 ---
 
-### Ejemplos de consumo de agentes (casos reales)
+### Casos de uso y ejemplos de consumo
 
-Los siguientes ejemplos están basados en requerimientos ya trabajados en este workspace (PDI-967, PDI-1059 y PDI-1071).
+#### Análisis de requerimiento
 
-#### Ejemplo 1: consumo principal (MS desde requerimiento real)
+El análisis de requerimiento es la etapa inicial donde se transforma un pedido o historia en un alcance claro, con supuestos, riesgos, dependencias y criterios de validación. Es el punto de entrada para decidir si el trabajo debe continuar por microservicio, BFF, migración o una combinación de estos caminos.
+
+Cuando aplica:
+- Cuando el requerimiento aún no tiene alcance cerrado.
+- Cuando se necesita dejar una base técnica versionada antes de implementar.
+- Cuando el equipo necesita estimar impacto, riesgos y dependencias.
+- Cuando se quiere preparar el contexto para MS, BFF o migraciones sin saltar directamente a código.
+
+Salida esperada:
+- Alcance y supuestos explicitados.
+- Riesgos y dependencias identificadas.
+- Plan técnico inicial y criterios de validación.
+- Referencia útil para la siguiente etapa de implementación.
+
+#### Casos de uso
+
+- Requerimientos funcionales nuevos con impacto en MS o BFF.
+- Historias que requieren análisis de base de datos o migración SQL.
+- Casos donde el negocio necesita entender el alcance antes de construir.
+- Escenarios de revisión previa a pull request o implementación.
+
+#### Requerimientos
+
+Este flujo también aplica cuando el punto de entrada es un requerimiento en sí mismo. En esos casos, el objetivo no es solo implementar, sino primero comprender el alcance, los supuestos, los riesgos y la validación esperada antes de pasar a MS, BFF o migraciones.
+
+Cuando usarlo:
+- Para convertir un requerimiento en una base técnica clara.
+- Para preparar la conversación con negocio, QA o arquitectura.
+- Para identificar vacíos funcionales y dependencias antes de construir.
+- Para dejar una guía de análisis que sirva como referencia de entrada al desarrollo.
+
+Salida esperada:
+- Requerimiento traducido a alcance accionable.
+- Supuestos y riesgos documentados.
+- Plan de análisis listo para la siguiente etapa.
+- Contexto compartido para implementación y validación.
+
+#### Ejemplo 1: análisis de requerimiento (alcance y contexto)
+
+Prompt sugerido:
+
+Analizar PDI-1071 en Proyectos/sip-ms-diligencias y dejar un alcance claro para la implementación futura: identificar supuestos, riesgos, dependencias, criterios de validación y vacíos funcionales antes de pasar a desarrollo.
+
+Salida esperada del agente:
+
+- Alcance y supuestos explicitados.
+- Riesgos y dependencias identificadas.
+- Criterios de validación definidos.
+- Base técnica preparada para la siguiente etapa de implementación.
+
+#### Ejemplo 2: consumo principal (MS desde requerimiento real)
 
 Prompt sugerido:
 
@@ -517,7 +627,7 @@ Salida esperada del agente:
 - OpenAPI actualizado y validado.
 - Coleccion y environment Postman trazables al contrato.
 
-#### Ejemplo 2: consumo BD + migraciones (tabla/instrucciones)
+#### Ejemplo 3: consumo BD + migraciones (tabla/instrucciones)
 
 Prompt sugerido:
 
@@ -530,7 +640,7 @@ Salida esperada del agente:
 - Evidencia de conversion en migration_postgres/output.
 - Reporte final con riesgos, validaciones y siguientes pasos.
 
-#### Ejemplo 3: consumo BFF downstream (bandeja investigador)
+#### Ejemplo 4: consumo BFF downstream (bandeja investigador)
 
 Prompt sugerido:
 
@@ -545,9 +655,29 @@ Salida esperada del agente:
 
 ---
 
-### Plantillas reutilizables de prompt (MS, BFF, DB)
+### Plantillas reutilizables de prompt (Analisis, MS, BFF, DB)
 
 Usar estas plantillas como base y reemplazar los campos entre llaves.
+
+#### Plantilla Analisis de requerimiento
+
+Prompt:
+
+Analizar {ID_REQUERIMIENTO} en {RUTA_REPO_OBJETIVO} para {OBJETIVO_FUNCIONAL_O_TECNICO}. Construir una base de analisis antes de implementar: alcance, supuestos, riesgos, dependencias, vacios funcionales, criterios de validacion y siguiente paso recomendado (MS, BFF o migracion). No implementar codigo en esta etapa; dejar el contexto listo para ejecucion.
+
+Campos a completar:
+
+- ID_REQUERIMIENTO: ejemplo PDI-1071.
+- RUTA_REPO_OBJETIVO: ejemplo Proyectos/sip-ms-diligencias.
+- OBJETIVO_FUNCIONAL_O_TECNICO: ejemplo actividades asociadas a diligencia.
+
+Checklist minimo esperado:
+
+- Alcance y supuestos explicitados.
+- Riesgos y dependencias identificadas.
+- Vacios funcionales y preguntas abiertas listadas.
+- Criterios de validacion definidos.
+- Recomendacion de siguiente paso (MS, BFF o migraciones).
 
 #### Plantilla MS (microservicio)
 
@@ -726,6 +856,10 @@ Buenas practicas:
 1. Escribir avances concretos por resultado, no por horas.
 2. Registrar bloqueos con propietario y accion siguiente.
 3. Mantener consistencia entre lo reportado en daily y el detalle del registro.
+4. Cuando uses un agente, registrar el nombre amigable y el prompt base asociado en el registro diario.
+5. Para analizar un caso, usar como referencia el alias "Analizar caso" o "Analisis de requerimientos" y luego completar el campo de prompt con la instruccion concreta.
+6. Siempre actualizar este README principal cuando se incorpore una mejora, ejemplo de prompt, flujo operativo o herramienta nueva.
+7. Si una mejora aplica a una herramienta especifica, documentarla tambien en su README propio para mantener la informacion central y la local sincronizadas.
 
 ### Checklist de cierre diario
 
