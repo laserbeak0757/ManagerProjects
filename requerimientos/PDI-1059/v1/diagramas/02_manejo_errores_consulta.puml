@@ -1,0 +1,28 @@
+@startuml
+!theme plain
+
+actor "Consumidor" as C
+participant "MS Diligencias" as MS
+participant "Repositorio" as R
+database "BD" as DB
+
+C -> MS: Solicitar instrucciones(diligenciaId)
+MS -> MS: Validar parametro
+
+alt diligenciaId invalido
+  MS --> C: 400 Bad Request
+else diligenciaId valido
+  MS -> R: ObtenerInstrucciones(diligenciaId)
+  R -> DB: SELECT ...
+  alt Sin resultados
+    DB --> R: empty
+    R --> MS: notFound
+    MS --> C: 404 Not Found (o vacio segun contrato)
+  else Error tecnico
+    DB --> R: exception
+    R --> MS: error
+    MS --> C: 500 Internal Server Error controlado
+  end
+end
+
+@enduml

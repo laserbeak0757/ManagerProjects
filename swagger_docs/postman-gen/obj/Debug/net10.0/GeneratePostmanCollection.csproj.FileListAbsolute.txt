@@ -1,0 +1,14 @@
+C:\Projects\swagger_docs\postman-gen\bin\Debug\net10.0\GeneratePostmanCollection.exe
+C:\Projects\swagger_docs\postman-gen\bin\Debug\net10.0\GeneratePostmanCollection.deps.json
+C:\Projects\swagger_docs\postman-gen\bin\Debug\net10.0\GeneratePostmanCollection.runtimeconfig.json
+C:\Projects\swagger_docs\postman-gen\bin\Debug\net10.0\GeneratePostmanCollection.dll
+C:\Projects\swagger_docs\postman-gen\bin\Debug\net10.0\GeneratePostmanCollection.pdb
+C:\Projects\swagger_docs\postman-gen\obj\Debug\net10.0\GeneratePostmanCollection.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\swagger_docs\postman-gen\obj\Debug\net10.0\GeneratePostmanCollection.AssemblyInfoInputs.cache
+C:\Projects\swagger_docs\postman-gen\obj\Debug\net10.0\GeneratePostmanCollection.AssemblyInfo.cs
+C:\Projects\swagger_docs\postman-gen\obj\Debug\net10.0\GeneratePostmanCollection.csproj.CoreCompileInputs.cache
+C:\Projects\swagger_docs\postman-gen\obj\Debug\net10.0\GeneratePostmanCollection.dll
+C:\Projects\swagger_docs\postman-gen\obj\Debug\net10.0\refint\GeneratePostmanCollection.dll
+C:\Projects\swagger_docs\postman-gen\obj\Debug\net10.0\GeneratePostmanCollection.pdb
+C:\Projects\swagger_docs\postman-gen\obj\Debug\net10.0\GeneratePostmanCollection.genruntimeconfig.cache
+C:\Projects\swagger_docs\postman-gen\obj\Debug\net10.0\ref\GeneratePostmanCollection.dll

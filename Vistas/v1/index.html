@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vistas SIP - Mapeo BD a UI</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Vistas SIP</h1>
+      <p>Mapeo de campos de BD a formularios con vista previa en vivo</p>
+    </div>
+    <div class="topbar-actions">
+      <button id="btnLoadSample" type="button">Cargar ejemplo</button>
+      <button id="btnGenerateFromTable" type="button">Generar desde tabla</button>
+      <button id="btnExportScreen" type="button">Exportar vista</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <h2>1) Modelo de datos</h2>
+      <div class="field-row">
+        <label for="schemaFileInput">Importar schema JSON</label>
+        <input id="schemaFileInput" type="file" accept="application/json" />
+      </div>
+      <div class="field-row">
+        <label for="tableSelect">Tabla</label>
+        <select id="tableSelect"></select>
+      </div>
+      <div class="field-row">
+        <label>Campos de la tabla</label>
+        <div id="dbFieldsList" class="list"></div>
+      </div>
+      <details>
+        <summary>Ver JSON del modelo</summary>
+        <textarea id="schemaText" spellcheck="false"></textarea>
+        <button id="btnApplySchema" type="button" class="btn-secondary">Aplicar JSON</button>
+      </details>
+    </section>
+
+    <section class="panel">
+      <h2>2) Definición de pantalla</h2>
+      <div class="field-row">
+        <label for="screenName">Nombre de pantalla</label>
+        <input id="screenName" type="text" placeholder="Ej: Registro de Personas" />
+      </div>
+      <div class="field-row">
+        <label for="screenFileInput">Importar vista JSON</label>
+        <input id="screenFileInput" type="file" accept="application/json" />
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Etiqueta</th>
+            <th>Control</th>
+            <th>Campo BD</th>
+            <th>Requerido</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="mappingBody"></tbody>
+      </table>
+      <button id="btnAddElement" type="button" class="btn-secondary">Agregar campo UI</button>
+      <details>
+        <summary>Ver JSON de la vista</summary>
+        <textarea id="screenText" spellcheck="false"></textarea>
+        <button id="btnApplyScreen" type="button" class="btn-secondary">Aplicar JSON</button>
+      </details>
+    </section>
+
+    <section class="panel preview-panel">
+      <h2>3) Vista previa en vivo</h2>
+      <form id="previewForm" class="preview-grid"></form>
+      <div class="preview-footer">
+        <button id="btnSimulateSave" type="button">Simular guardar</button>
+      </div>
+      <label for="payloadPreview">Payload generado</label>
+      <pre id="payloadPreview" class="payload"></pre>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

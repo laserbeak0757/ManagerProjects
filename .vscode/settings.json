@@ -1,0 +1,32 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#d458f7",
+        "activityBar.background": "#d458f7",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#f5c82a",
+        "activityBarBadge.foreground": "#15202b",
+        "activityBarTop.activeBackground": "#d458f7",
+        "activityBarTop.background": "#d458f7",
+        "activityBarTop.foreground": "#15202b",
+        "activityBarTop.inactiveForeground": "#15202b99",
+        "commandCenter.border": "#e7e7e799",
+        "commandCenter.foreground": "#e7e7e7",
+        "sash.hoverBorder": "#d458f7",
+        "statusBar.background": "#c827f5",
+        "statusBar.debuggingBackground": "#c827f5",
+        "statusBar.debuggingForeground": "#e7e7e7",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#d458f7",
+        "statusBarItem.remoteBackground": "#5b4804",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#c827f5",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#c827f599",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#C827F5",
+    "plantuml.render": "Local",
+    "plantuml.java": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.11.10-hotspot\\bin\\java.exe",
+    "plantuml.jar": "C:\\Projects\\plantuml-1.2025.10.jar"
+}

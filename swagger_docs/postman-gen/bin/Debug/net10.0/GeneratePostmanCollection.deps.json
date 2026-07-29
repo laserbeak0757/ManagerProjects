@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "GeneratePostmanCollection/1.0.0": {
+        "runtime": {
+          "GeneratePostmanCollection.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "GeneratePostmanCollection/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

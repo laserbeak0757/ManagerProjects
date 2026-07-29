@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vistas SIP v2 - Maestro Detalle</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Vistas SIP v2</h1>
+      <p>Constructor maestro-detalle con mapeo BD y validaciones SQL</p>
+    </div>
+    <div class="actions">
+      <button id="btnLoadSample" type="button">Cargar ejemplo</button>
+      <button id="btnExportScreen" type="button">Exportar pantalla JSON</button>
+      <button id="btnSimulateSave" type="button">Simular guardar</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <h2>1) Modelo BD</h2>
+      <label for="schemaFileInput">Importar schema JSON</label>
+      <input id="schemaFileInput" type="file" accept="application/json" />
+
+      <label for="tableSelect">Vista rápida de tabla</label>
+      <select id="tableSelect"></select>
+
+      <div id="tableFields" class="list"></div>
+
+      <details>
+        <summary>Editor schema JSON</summary>
+        <textarea id="schemaText" spellcheck="false"></textarea>
+        <button id="btnApplySchema" type="button" class="btn-secondary">Aplicar schema</button>
+      </details>
+    </section>
+
+    <section class="panel">
+      <h2>2) Diseño pantalla</h2>
+      <label for="screenName">Nombre pantalla</label>
+      <input id="screenName" type="text" placeholder="Ej: Registro Denuncia" />
+
+      <label for="screenFileInput">Importar pantalla JSON</label>
+      <input id="screenFileInput" type="file" accept="application/json" />
+
+      <div class="row">
+        <button id="btnAddSection" type="button" class="btn-secondary">Agregar sección</button>
+      </div>
+
+      <div id="sectionsContainer"></div>
+
+      <details>
+        <summary>Editor pantalla JSON</summary>
+        <textarea id="screenText" spellcheck="false"></textarea>
+        <button id="btnApplyScreen" type="button" class="btn-secondary">Aplicar pantalla</button>
+      </details>
+    </section>
+
+    <section class="panel preview-panel">
+      <h2>3) Preview + payload</h2>
+      <div id="previewContainer"></div>
+      <h3>Payload</h3>
+      <pre id="payloadPreview" class="payload"></pre>
+      <h3>Validaciones</h3>
+      <ul id="validationList" class="validation-list"></ul>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+{
+  "presets": [
+    {
+      "id": "denuncias-registro",
+      "name": "Denuncias - Registro con detalle",
+      "description": "Cabecera denuncia + detalle de personas vinculadas",
+      "screen": {
+        "screenName": "Denuncia - Registro Maestro Detalle",
+        "sections": [
+          {
+            "id": "cabecera",
+            "name": "Cabecera Denuncia",
+            "table": "denuncias.denuncia",
+            "mode": "form",
+            "relation": null,
+            "fields": [
+              { "bind": "numero_parte", "label": "Numero Parte", "control": "text", "required": true, "include": true },
+              { "bind": "fecha_recepcion", "label": "Fecha Recepcion", "control": "date", "required": true, "include": true },
+              { "bind": "id_estado_denuncia", "label": "Estado", "control": "number", "required": true, "include": true },
+              { "bind": "observacion", "label": "Observacion", "control": "textarea", "required": false, "include": true }
+            ]
+          },
+          {
+            "id": "detalle",
+            "name": "Personas de la Denuncia",
+            "table": "denuncias.denuncia_persona_rol",
+            "mode": "grid",
+            "relation": {
+              "parentSectionId": "cabecera",
+              "parentField": "id_denuncia",
+              "childField": "id_denuncia"
+            },
+            "fields": [
+              { "bind": "id_persona", "label": "Persona", "control": "number", "required": true, "include": true },
+              { "bind": "id_tipo_rol_persona", "label": "Rol", "control": "number", "required": true, "include": true }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "diligencias-bandeja",
+      "name": "Diligencias - Bandeja Investigador",
+      "description": "Preview tipo bandeja con filtros y acciones por estado",
+      "screen": {
+        "screenName": "Bandeja Diligencias Investigador",
+        "sections": [
+          {
+            "id": "bandeja",
+            "name": "Filtros Bandeja",
+            "table": "diligencias.diligencia",
+            "mode": "form",
+            "relation": null,
+            "fields": [
+              { "bind": "estado", "label": "Estado", "control": "text", "required": false, "include": true },
+              { "bind": "fecha_inicio", "label": "Fecha Inicio", "control": "date", "required": false, "include": true },
+              { "bind": "fecha_termino", "label": "Fecha Termino", "control": "date", "required": false, "include": true }
+            ]
+          },
+          {
+            "id": "acciones",
+            "name": "Acciones Permitidas",
+            "table": "diligencias.diligencia_accion",
+            "mode": "grid",
+            "relation": {
+              "parentSectionId": "bandeja",
+              "parentField": "id_diligencia",
+              "childField": "id_diligencia"
+            },
+            "fields": [
+              { "bind": "accion", "label": "Accion", "control": "text", "required": true, "include": true },
+              { "bind": "habilitada", "label": "Habilitada", "control": "checkbox", "required": true, "include": true }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

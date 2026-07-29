@@ -1,0 +1,11 @@
+{
+  "screenName": "Persona - Registro Base",
+  "table": "personas.persona",
+  "elements": [
+    { "id": "run", "label": "RUN", "control": "text", "bind": "run", "required": true },
+    { "id": "nombres", "label": "Nombres", "control": "text", "bind": "nombres", "required": true },
+    { "id": "apellido_paterno", "label": "Apellido Paterno", "control": "text", "bind": "apellido_paterno", "required": true },
+    { "id": "fecha_nacimiento", "label": "Fecha de Nacimiento", "control": "date", "bind": "fecha_nacimiento", "required": false },
+    { "id": "vigente", "label": "Vigente", "control": "checkbox", "bind": "vigente", "required": false }
+  ]
+}

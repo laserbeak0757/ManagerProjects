@@ -1,0 +1,11 @@
+﻿Pending patterns report
+Generated: 2026-07-27T17:43:28.6603325-04:00
+
+PERSISTED => 3
+sp_addextendedproperty => 2109
+MERGE\s+.*\s+USING => 0
+TRY_CONVERT => 0
+SCOPE_IDENTITY\s*\( => 0
+OPENJSON => 0
+JSON_VALUE => 0
+WITH\s*\( => 2

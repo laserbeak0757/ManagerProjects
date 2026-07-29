@@ -1,0 +1,10 @@
+{
+  "name": "vistas-sip-v3",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Constructor BD/UI version 3 ejecutado con Node",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

@@ -1,0 +1,26 @@
+@startuml
+title PDI-1071 - Consulta de actividades asociadas a diligencia
+
+autonumber
+
+actor "Consumidor (BFF/cliente API)" as C
+participant "MS Diligencias API" as API
+participant "Application/Handler" as APP
+database "BD Diligencias" as DB
+
+C -> API: GET /diligencias/{diligenciaId}/actividades
+API -> APP: Validar request + identidad
+APP -> DB: Verificar existencia diligencia
+DB --> APP: existe/no existe
+
+alt Diligencia no existe
+  APP --> API: Resultado 404
+  API --> C: 404 Not Found
+else Diligencia existe
+  APP -> DB: Consultar actividades por diligenciaId
+  DB --> APP: Lista de actividades
+  APP --> API: DTO respuesta
+  API --> C: 200 OK + items[]
+end
+
+@enduml

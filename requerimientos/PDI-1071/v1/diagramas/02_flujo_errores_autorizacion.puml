@@ -1,0 +1,35 @@
+@startuml
+title PDI-1071 - Flujo de autorizacion y errores
+
+autonumber
+
+actor "Consumidor" as C
+participant "MS Diligencias API" as API
+participant "AuthZ" as AZ
+participant "Handler" as H
+database "BD" as DB
+
+C -> API: GET /diligencias/{id}/actividades
+API -> AZ: Validar token/rol/contexto
+
+alt Token invalido o sin permisos
+  AZ --> API: Denegar
+  API --> C: 403 Forbidden
+else Token valido
+  AZ --> API: Permitir
+  API -> H: Procesar consulta
+  H -> DB: Query actividades
+
+  alt Parametro invalido
+    H --> API: Error validacion
+    API --> C: 400 Bad Request
+  else Falla tecnica
+    H --> API: Excepcion controlada
+    API --> C: 500 Internal Server Error
+  else Exito
+    H --> API: Resultado OK
+    API --> C: 200 OK
+  end
+end
+
+@enduml

@@ -1,0 +1,98 @@
+﻿-- =============================================================================
+-- V0035__crear_esquema_log_tmp.sql
+-- Esquema log_tmp y tabla de log de errores (DDL, run-once).
+--   Esquema : log_tmp   (creado si no existe)
+--   Tabla   : log_tmp.log_error (+ diccionario de datos)
+-- log_tmp es PROVISORIO/migrable por sinónimo (ver estándar 2.7): el día que el
+-- log se mueva a una base dedicada, se recrea solo el sinónimo de escritura.
+-- La programabilidad (log_tmp.registrar_error) va en R__log_tmp_programmability.
+-- =============================================================================
+SET NOCOUNT ON;
+GO
+
+/* ============================================================================
+   SONDA - Tabla de log de errores  (SQL Server 2017)
+   log_tmp.log_error
+   Crea el esquema log_tmp si no existe (antes del primer objeto del esquema).
+   Diseño defensivo: el log NUNCA debe botar el sistema.
+     - Solo id/fecha/error_number son NOT NULL; el resto NULL.
+     - Sin FKs, sin triggers, sin CHECKs estrictos.
+     - La escritura va en log_tmp.registrar_error (best-effort, no re-lanza),
+       invocada DESPUÉS del ROLLBACK en el CATCH del SP.
+     - Esquema log_tmp: provisorio; migrable a una base de log (LogDB)
+       recreando solo el sinónimo de escritura, sin tocar los SP.
+   ============================================================================ */
+-- Esquema log_tmp (crear si no existe, antes del primer objeto del esquema)
+IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = N'log_tmp')
+    EXEC ('CREATE SCHEMA log_tmp;');
+GO
+IF OBJECT_ID(N'log_tmp.log_error', N'U') IS NULL
+BEGIN
+    CREATE TABLE log_tmp.log_error
+    (
+        id_log         BIGINT            NOT NULL IDENTITY(1,1)
+            CONSTRAINT PK_log_error PRIMARY KEY CLUSTERED,
+        fecha_utc      DATETIME2(3)      NOT NULL
+            CONSTRAINT DF_log_error_fecha_utc DEFAULT (SYSUTCDATETIME()),
+        error_number   INT               NOT NULL,
+        mensaje        NVARCHAR(2048)    NULL,
+        sp_origen      NVARCHAR(261)     NULL,
+        correlation_id UNIQUEIDENTIFIER  NULL,
+        login_sql      NVARCHAR(128)     NULL,
+        host           NVARCHAR(128)     NULL,
+        session_id     SMALLINT          NULL,
+        id_usuario     INT               NULL,
+        entidad_tipo   NVARCHAR(60)      NULL,
+        entidad_id     INT               NULL
+    );
+    CREATE INDEX IX_log_error_fecha_utc   ON log_tmp.log_error (fecha_utc);
+    CREATE INDEX IX_log_error_correlation ON log_tmp.log_error (correlation_id);
+    CREATE INDEX IX_log_error_entidad     ON log_tmp.log_error (entidad_tipo, entidad_id);
+    CREATE INDEX IX_log_error_sp_origen   ON log_tmp.log_error (sp_origen);
+END
+GO
+/* ----------------------------------------------------------------------------
+   Descripciones (diccionario de datos vía extended properties MS_Description)
+   ---------------------------------------------------------------------------- */
+-- Descripción de la TABLA
+IF NOT EXISTS (SELECT 1 FROM sys.extended_properties
+               WHERE major_id = OBJECT_ID(N'log_tmp.log_error') AND minor_id = 0 AND name = N'MS_Description')
+    EXEC sys.sp_addextendedproperty
+        @name = N'MS_Description',
+        @value = N'Log de errores de aplicación. Escritura best-effort (nunca debe botar el sistema); la alimentan el helper de errores y los SP directamente. Solo id_log/fecha_utc/error_number son obligatorios.',
+        @level0type = N'SCHEMA', @level0name = N'log_tmp',
+        @level1type = N'TABLE',  @level1name = N'log_error';
+GO
+-- Descripciones de COLUMNAS
+DECLARE @cols TABLE (col SYSNAME, descr NVARCHAR(400));
+INSERT INTO @cols (col, descr) VALUES
+ (N'id_log',         N'Identificador único de la fila de log (PK, autoincremental).'),
+ (N'fecha_utc',      N'Fecha y hora UTC de registro del evento. Default SYSUTCDATETIME().'),
+ (N'error_number',   N'Código de error lanzado por el SP (el contrato hacia la API). Obligatorio.'),
+ (N'mensaje',        N'Mensaje resuelto del error (mensaje_base + detalle). Truncado a 2048.'),
+ (N'sp_origen',      N'Procedimiento que originó el error, en formato esquema.nombre_sp.'),
+ (N'correlation_id', N'Correlación de la operación (cruza el log con el de la API). Se lee del SESSION_CONTEXT; queda NULL si no viene (indicio de operación sin nivel 1). Ver 2.7.2 Contexto de sesión.'),
+ (N'login_sql',      N'Cuenta de conexión a la BD (SUSER_SNAME()); normalmente la cuenta de servicio.'),
+ (N'host',           N'Nombre del host del cliente (HOST_NAME()); autoinformado, referencial.'),
+ (N'session_id',     N'Identificador de sesión del motor (@@SPID) para correlación en caliente.'),
+ (N'id_usuario',     N'Id del usuario (funcionario) autenticado. Se lee del SESSION_CONTEXT que publica el SP de nivel 1 con el valor que entrega la aplicación (la cuenta de servicio no lo identifica). Misma fuente que las columnas de auditoría del modelo. Ver 2.7.2 Contexto de sesión.'),
+ (N'entidad_tipo',   N'Tipo de entidad de negocio afectada; texto por convención en singular y minúscula (p. ej. denuncia, persona, caso, vehiculo). NULL si no aplica a una entidad puntual.'),
+ (N'entidad_id',     N'Identificador de la entidad de negocio afectada (p. ej. la denuncia 12345 o la persona 889). NULL si no aplica.');
+DECLARE @c SYSNAME, @d NVARCHAR(400);
+DECLARE cur CURSOR LOCAL FAST_FORWARD FOR SELECT col, descr FROM @cols;
+OPEN cur; FETCH NEXT FROM cur INTO @c, @d;
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM sys.extended_properties
+                   WHERE major_id = OBJECT_ID(N'log_tmp.log_error')
+                     AND minor_id = COLUMNPROPERTY(OBJECT_ID(N'log_tmp.log_error'), @c, 'ColumnId')
+                     AND name = N'MS_Description')
+        EXEC sys.sp_addextendedproperty
+            @name = N'MS_Description', @value = @d,
+            @level0type = N'SCHEMA',  @level0name = N'log_tmp',
+            @level1type = N'TABLE',   @level1name = N'log_error',
+            @level2type = N'COLUMN',  @level2name = @c;
+    FETCH NEXT FROM cur INTO @c, @d;
+END
+CLOSE cur; DEALLOCATE cur;
+GO

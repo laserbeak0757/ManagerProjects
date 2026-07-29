@@ -1,0 +1,12 @@
+﻿Validation summary
+Generated: 2026-07-27T17:43:31.2274095-04:00
+
+create_table => 275
+alter_table => 2767
+foreign_key => 1152
+create_index => 95
+identity_left => 1
+go_left => 0
+brackets_left => 0
+sysutcdatetime_left => 0
+sp_addextendedproperty_left => 2109

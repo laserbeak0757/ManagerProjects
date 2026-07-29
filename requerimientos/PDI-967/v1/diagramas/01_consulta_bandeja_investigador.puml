@@ -1,0 +1,24 @@
+@startuml
+!theme plain
+
+actor Investigador as INV
+participant "Front Web" as FRONT
+participant "Nexo BFF Diligencias" as BFF
+participant "MS Diligencias" as MS
+participant "DB Diligencias" as DB
+
+INV -> FRONT: Abrir bandeja de diligencias
+FRONT -> BFF: GET /bandeja?filtros&page
+BFF -> BFF: Validar token y parametros
+BFF -> MS: GET /diligencias/bandeja
+MS -> MS: Resolver funcionario desde token
+MS -> DB: Consultar diligencias asignadas + filtros
+DB --> MS: Resultado paginado
+MS -> MS: Calcular fecha limite (2,10,20)
+MS -> MS: Determinar puedeGestionar segun estado
+MS --> BFF: DTO bandeja paginada
+BFF -> BFF: Mapear contrato UI
+BFF --> FRONT: 200 OK + bandeja
+FRONT --> INV: Render tabla y acciones disponibles
+
+@enduml

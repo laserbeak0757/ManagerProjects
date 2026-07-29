@@ -1,0 +1,23 @@
+@startuml
+!theme plain
+
+actor Investigador as INV
+participant "Front Web" as FRONT
+participant "Nexo BFF Diligencias" as BFF
+participant "MS Diligencias" as MS
+
+INV -> FRONT: Click en Gestionar diligencia
+FRONT -> FRONT: Evalua estado actual
+
+alt Estado permitido (EN_DESARROLLO u OBSERVADA)
+  FRONT -> BFF: POST /diligencias/{id}/gestionar
+  BFF -> MS: POST /diligencias/{id}/gestionar
+  MS -> MS: Valida rol + estado + ownership
+  MS --> BFF: 200 OK
+  BFF --> FRONT: 200 OK
+  FRONT --> INV: Muestra confirmacion
+else Estado no permitido
+  FRONT --> INV: Accion no disponible
+end
+
+@enduml

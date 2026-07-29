@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vistas SIP v3 - Node Edition</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <span class="eyebrow">Node Edition</span>
+      <h1>Vistas SIP v3</h1>
+      <p>Presets por dominio, maestro-detalle y validacion de payload en navegador</p>
+    </div>
+    <div class="topbar-actions">
+      <button id="btnLoadSample" type="button">Cargar ejemplo</button>
+      <button id="btnApplyPreset" type="button">Aplicar preset</button>
+      <button id="btnExportScreen" type="button">Exportar pantalla</button>
+      <button id="btnSimulateSave" type="button">Simular guardar</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel panel-compact">
+      <h2>Modelo</h2>
+      <label for="schemaSource">Fuente</label>
+      <select id="schemaSource"></select>
+
+      <label for="tableSelect">Tabla</label>
+      <select id="tableSelect"></select>
+
+      <div id="tableInfo" class="list"></div>
+
+      <details>
+        <summary>Schema JSON</summary>
+        <textarea id="schemaText" spellcheck="false"></textarea>
+        <button id="btnApplySchema" type="button" class="btn-secondary">Aplicar schema</button>
+      </details>
+    </section>
+
+    <section class="panel">
+      <h2>Diseño</h2>
+      <label for="screenName">Nombre pantalla</label>
+      <input id="screenName" type="text" placeholder="Ej: Registro de denuncia" />
+
+      <label for="presetSelect">Preset por dominio</label>
+      <select id="presetSelect"></select>
+
+      <div class="toolbar">
+        <button id="btnAddSection" type="button" class="btn-secondary">Agregar sección</button>
+        <button id="btnAddField" type="button" class="btn-secondary">Agregar campo</button>
+      </div>
+
+      <div id="sectionsContainer"></div>
+
+      <details>
+        <summary>Screen JSON</summary>
+        <textarea id="screenText" spellcheck="false"></textarea>
+        <button id="btnApplyScreen" type="button" class="btn-secondary">Aplicar pantalla</button>
+      </details>
+    </section>
+
+    <section class="panel preview-panel">
+      <h2>Preview</h2>
+      <div id="previewContainer"></div>
+      <h3>Payload</h3>
+      <pre id="payloadPreview" class="payload"></pre>
+      <h3>Validaciones</h3>
+      <ul id="validationList" class="validation-list"></ul>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vistas SIP v4.1 - Command Center</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <div class="grid-overlay"></div>
+
+  <header class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">Command Center local</span>
+      <h1>Vistas SIP v4.1</h1>
+      <p>Interfaz profesional, dinamica y lista para trabajar en el navegador local con schema real, presets y maestro-detalle.</p>
+      <div id="kpiRail" class="kpi-rail"></div>
+      <div class="theme-switcher">
+        <label for="themeSelect">Tema visual</label>
+        <select id="themeSelect" aria-label="Seleccionar tema visual">
+          <option value="executive">Azul-Verde Ejecutivo</option>
+          <option value="mint">Verde-Turquesa Claro</option>
+          <option value="xbetClassic">8xbet Clasico (claro)</option>
+          <option value="xbetSlate">8xbet Slate (profundo)</option>
+          <option value="xbetBlend">8XBET Blend (neutral)</option>
+        </select>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <button id="btnAutoBuild" type="button">Crear pantalla inteligente</button>
+      <button id="btnAddSection" type="button" class="btn-secondary">Agregar sección</button>
+      <button id="btnAddDetail" type="button" class="btn-secondary">Agregar detalle</button>
+      <button id="btnSaveSnapshot" type="button" class="btn-secondary">Guardar snapshot</button>
+      <button id="btnExportScreen" type="button" class="btn-secondary">Exportar JSON</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <aside class="panel panel-side">
+      <div class="panel-head">
+        <div>
+          <span class="panel-label">Catálogo</span>
+          <h2>Modelo y tablas</h2>
+        </div>
+        <span id="schemaBadge" class="badge">Cargando</span>
+      </div>
+
+      <label for="schemaSource">Origen de schema</label>
+      <select id="schemaSource"></select>
+
+      <label for="tableSearch">Buscar tabla o campo</label>
+      <input id="tableSearch" type="search" placeholder="ej. denuncia, persona, fecha" />
+
+      <label for="tableSelect">Tabla activa</label>
+      <select id="tableSelect"></select>
+
+      <div id="tableBrowser" class="table-browser"></div>
+
+      <div id="selectedTableInfo" class="card card-muted"></div>
+
+      <details class="details-box">
+        <summary>Schema JSON</summary>
+        <textarea id="schemaText" spellcheck="false"></textarea>
+        <button id="btnApplySchema" type="button" class="btn-secondary full-width">Aplicar schema</button>
+      </details>
+    </aside>
+
+    <section class="panel panel-main">
+      <div class="panel-head">
+        <div>
+          <span class="panel-label">Diseño</span>
+          <h2>Compositor de pantalla</h2>
+        </div>
+        <div class="inline-actions">
+          <button id="btnLoadPreset" type="button" class="btn-secondary">Aplicar preset</button>
+          <button id="btnClearScreen" type="button" class="btn-secondary">Limpiar</button>
+        </div>
+      </div>
+
+      <div class="composer-grid">
+        <div class="field-group">
+          <label for="screenName">Nombre de pantalla</label>
+          <input id="screenName" type="text" placeholder="Ej: Registro de denuncia" />
+        </div>
+        <div class="field-group">
+          <label for="presetSelect">Preset por dominio</label>
+          <select id="presetSelect"></select>
+        </div>
+      </div>
+
+      <div class="composer-quickbar">
+        <span id="screenMeta" class="muted-chip"></span>
+        <span id="selectionMeta" class="muted-chip"></span>
+      </div>
+
+      <div id="sectionsContainer" class="sections-stack"></div>
+
+      <details class="details-box">
+        <summary>Editor JSON de pantalla</summary>
+        <textarea id="screenText" spellcheck="false"></textarea>
+        <button id="btnApplyScreen" type="button" class="btn-secondary full-width">Aplicar pantalla</button>
+      </details>
+    </section>
+
+    <aside class="panel panel-side panel-preview">
+      <div class="panel-head">
+        <div>
+          <span class="panel-label">Live</span>
+          <h2>Preview y control</h2>
+        </div>
+        <span id="previewBadge" class="badge badge-soft">Listo</span>
+      </div>
+
+      <div id="previewContainer" class="preview-rail"></div>
+
+      <section class="card card-code">
+        <div class="card-title-row">
+          <h3>Payload</h3>
+          <button id="btnValidate" type="button" class="btn-secondary btn-tiny">Validar</button>
+        </div>
+        <pre id="payloadPreview" class="payload"></pre>
+      </section>
+
+      <section class="card card-code">
+        <h3>Validaciones</h3>
+        <ul id="validationList" class="validation-list"></ul>
+      </section>
+
+      <section class="card card-code">
+        <div class="card-title-row">
+          <h3>Snapshots</h3>
+          <button id="btnRefreshSnapshots" type="button" class="btn-secondary btn-tiny">Refrescar</button>
+        </div>
+        <div id="snapshotList" class="snapshot-list"></div>
+      </section>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

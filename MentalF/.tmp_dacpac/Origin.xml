@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DacOrigin xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <PackageProperties>
+    <Version>3.0.0.0</Version>
+    <ContainsExportedData>false</ContainsExportedData>
+    <StreamVersions>
+      <Version StreamName="Data">2.0.0.0</Version>
+      <Version StreamName="DeploymentContributors">1.0.0.0</Version>
+    </StreamVersions>
+  </PackageProperties>
+  <Operation>
+    <Identity>43285f50-db98-41a9-b892-b1f347bc2d6b</Identity>
+    <Start>2026-05-11T04:43:33.4355299+00:00</Start>
+    <End>0001-01-01T00:00:00.0000000</End>
+    <ProductName>Microsoft.SqlServer.Dac, Version=170.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91</ProductName>
+    <ProductVersion>170.3.93.6</ProductVersion>
+    <ProductSchema>http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02</ProductSchema>
+  </Operation>
+  <Server>
+    <ServerVersion>Microsoft SQL Server 2017 (RTM-CU31-GDR) (KB5084818) - 14.0.3525.1 (X64) 
+	Mar 13 2026 01:05:16 
+	Copyright (C) 2017 Microsoft Corporation
+	Developer Edition (64-bit) on Linux (Ubuntu 18.04.6 LTS)</ServerVersion>
+    <ObjectCounts>
+      <CheckConstraint>129</CheckConstraint>
+      <ComputedColumn>25</ComputedColumn>
+      <DatabaseOptions>1</DatabaseOptions>
+      <DefaultConstraint>262</DefaultConstraint>
+      <ExtendedProperty>1811</ExtendedProperty>
+      <ForeignKeyConstraint>399</ForeignKeyConstraint>
+      <Index>94</Index>
+      <InlineTableValuedFunction>1</InlineTableValuedFunction>
+      <MultiStatementTableValuedFunction>7</MultiStatementTableValuedFunction>
+      <PrimaryKeyConstraint>230</PrimaryKeyConstraint>
+      <Procedure>30</Procedure>
+      <Schema>18</Schema>
+      <ScriptFunctionImplementation>8</ScriptFunctionImplementation>
+      <SimpleColumn>1633</SimpleColumn>
+      <SubroutineParameter>64</SubroutineParameter>
+      <Table>230</Table>
+      <UniqueConstraint>135</UniqueConstraint>
+    </ObjectCounts>
+  </Server>
+  <ExportStatistics>
+    <SourceDatabaseSize>87096</SourceDatabaseSize>
+    <TableRowCountTotalTag>2609</TableRowCountTotalTag>
+  </ExportStatistics>
+  <Checksums>
+    <Checksum Uri="/model.xml">4CB3EF261EDD15F35AE4A17666B410A53408AB471195D5AB8395699362170FAE</Checksum>
+  </Checksums>
+  <ModelSchemaVersion>2.4</ModelSchemaVersion>
+</DacOrigin>

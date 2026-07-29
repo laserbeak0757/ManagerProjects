@@ -1,0 +1,38 @@
+@startuml
+title PDI-1071 v2 - Autorizacion y validacion de estados
+
+autonumber
+
+actor "Consumidor" as C
+participant "API" as API
+participant "AuthZ" as AZ
+participant "Handler" as H
+database "Repositorio" as R
+
+C -> API: GET /diligencias/{id}/actividades?estado=
+API -> AZ: Validar token y permisos
+
+alt Sin permisos
+  AZ --> API: Denegar
+  API --> C: 403 Forbidden
+else Con permisos
+  AZ --> API: Permitir
+  API -> H: Ejecutar consulta
+  H -> R: Obtener actividades por diligencia
+  R --> H: actividades[]
+
+  H -> H: Validar estadoActividad en {Pendiente, Completado, Descartado}
+
+  alt Parametro o estado invalido
+    H --> API: 400 Bad Request
+    API --> C: 400
+  else Sin datos
+    H --> API: items vacio
+    API --> C: 200
+  else Exito
+    H --> API: items normalizado
+    API --> C: 200
+  end
+end
+
+@enduml

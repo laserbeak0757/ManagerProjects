@@ -1,0 +1,21 @@
+{
+  "source": "sample",
+  "tables": [
+    {
+      "schema": "personas",
+      "name": "persona",
+      "fields": [
+        { "name": "id", "type": "int", "nullable": false },
+        { "name": "run", "type": "varchar(12)", "nullable": false },
+        { "name": "nombres", "type": "varchar(120)", "nullable": false },
+        { "name": "apellido_paterno", "type": "varchar(120)", "nullable": false },
+        { "name": "apellido_materno", "type": "varchar(120)", "nullable": true },
+        { "name": "fecha_nacimiento", "type": "date", "nullable": true },
+        { "name": "correo", "type": "varchar(200)", "nullable": true },
+        { "name": "telefono", "type": "varchar(30)", "nullable": true },
+        { "name": "observacion", "type": "varchar(max)", "nullable": true },
+        { "name": "vigente", "type": "bit", "nullable": false }
+      ]
+    }
+  ]
+}

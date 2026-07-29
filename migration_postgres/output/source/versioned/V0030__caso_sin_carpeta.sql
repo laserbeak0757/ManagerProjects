@@ -1,0 +1,7 @@
+ALTER TABLE casos.caso
+ALTER COLUMN id_carpeta INT NULL
+GO
+
+ALTER TABLE casos.caso
+ALTER COLUMN titulo NVARCHAR(300) NULL
+GO

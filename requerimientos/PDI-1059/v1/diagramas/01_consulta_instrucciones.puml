@@ -1,0 +1,17 @@
+@startuml
+!theme plain
+
+actor "Consumidor" as C
+participant "MS Diligencias" as MS
+participant "Repositorio" as R
+database "BD" as DB
+
+C -> MS: Solicitar instrucciones(diligenciaId)
+MS -> MS: Validar parametro
+MS -> R: ObtenerInstrucciones(diligenciaId)
+R -> DB: SELECT instrucciones ... WHERE diligencia_id = ?
+DB --> R: Resultado
+R --> MS: DTO instrucciones
+MS --> C: 200 OK + instrucciones
+
+@enduml
