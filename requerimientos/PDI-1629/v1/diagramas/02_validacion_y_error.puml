@@ -1,0 +1,26 @@
+@startuml
+title PDI-1629 - Validacion y manejo de error
+
+actor Usuario as U
+participant API as "ActividadInvestigativaController"
+participant UC as "GetActividadByIdDiligenciaUseCase"
+participant REPO as "ActividadInvestigativaRepository"
+database DB as "SP diligencias.obtener_actividad_investigativa"
+
+U -> API : GET /ms/actividades/diligencia/{idDiligencia}/{idUsuario}
+API -> UC : ExecuteAsync(query)
+UC -> REPO : GetAsync(idUsuario, idDiligencia)
+REPO -> DB : EXEC obtener_actividad_investigativa
+DB --> REPO : resultado
+
+alt no hay datos
+  REPO --> UC : lista vacia
+  UC --> API : vacio
+  API --> U : 200 + lista vacia
+else hay datos
+  REPO --> UC : entidades
+  UC --> API : DTOs
+  API --> U : 200 + datos
+end
+
+@enduml

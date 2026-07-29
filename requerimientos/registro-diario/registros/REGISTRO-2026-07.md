@@ -184,15 +184,15 @@
 
 ### 2026-07-29 (Miercoles)
 
-- Actividad: Estandarizacion del flujo de analisis y version v3
+- Actividad: Estandarizacion del flujo de analisis y analisis PDI-1629
 - Agente amigable: Analisis de requerimientos
 - Agente real: NEXO Requerimiento Analisis
-- Prompt / entrada: Mantener analisis en modo solo lectura Jira, versionado en raiz requerimientos y registrar actividades diarias de julio.
-- Plan del dia: Ajustar prompts/agente, mover entregables al path raiz, crear v3 y completar registro diario julio.
-- Realizado: Se actualizo configuracion de flujo (Jira solo lectura), se movio PDI-1634 a requerimientos raiz, se creo PDI-1634 v3 y se registro actividad diaria de analisis en julio.
-- Bloqueos: Ninguno tecnico; pendiente definicion funcional detallada de la epica para implementacion.
-- Siguiente paso: Cerrar minuta de refinamiento funcional y transformar v3 en backlog de implementacion ejecutable.
-- Resumen para daily (1-2 lineas): Se dejo v3 de PDI-1634 con plan de implementacion por tareas y se normalizo el registro diario de julio con trazabilidad de analisis.
+- Prompt / entrada: Mantener analisis en modo solo lectura Jira, versionado en raiz requerimientos y registrar actividades diarias de julio; repetir analisis para PDI-1629.
+- Plan del dia: Ajustar prompts/agente, mover entregables al path raiz, crear v3 de PDI-1634, crear paquete PDI-1629 y completar registro diario julio.
+- Realizado: Se actualizo configuracion de flujo (Jira solo lectura), se movio PDI-1634 a requerimientos raiz, se creo PDI-1634 v3, se creo PDI-1629 v1 y se registro actividad diaria de analisis en julio.
+- Bloqueos: Ninguno tecnico; pendiente definicion funcional detallada de la epica PDI-1629.
+- Siguiente paso: Cerrar minuta de refinamiento funcional para PDI-1629 y transformar el paquete en backlog de implementacion ejecutable.
+- Resumen para daily (1-2 lineas): Se dejo v3 de PDI-1634 y v1 de PDI-1629 con trazabilidad completa y se normalizo el registro diario de julio con dos analisis realizados.
 
 ### 2026-07-30 (Jueves)
 
@@ -242,7 +242,7 @@
 
 ### Semana 5
 
-- Logros: Analisis PDI-1634 consolidado en v1, v2 y v3; flujo de trabajo ajustado a Jira solo lectura; versionado en raiz requerimientos.
+- Logros: Analisis PDI-1634 consolidado en v1, v2 y v3; analisis PDI-1629 versionado en v1; flujo de trabajo ajustado a Jira solo lectura; versionado en raiz requerimientos.
 - Riesgos: Definicion funcional incompleta en la epica puede generar retrabajo si no se cierra antes de codificar.
 - Decisiones: Todo analisis debe quedar en requerimientos/{ID}/v{N}; cada sesion de analisis debe registrarse en el diario mensual correspondiente.
 - Pendientes abiertos: Minuta de refinamiento funcional final y plan de ejecucion de implementacion con responsables.

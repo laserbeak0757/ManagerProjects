@@ -1,0 +1,29 @@
+@startuml
+title PDI-1629 - Flujo de registro de actividad en ingreso a caso
+
+actor Usuario as U
+participant API as "ActividadInvestigativaController"
+participant UC as "CreateActividadInvestigativaUseCase"
+participant VAL as "CreateActividadInvestigativaCommandValidator"
+participant REPO as "ActividadInvestigativaRepository"
+database DB as "SP diligencias.crear_actividad_investigativa"
+
+U -> API : POST /ms/actividades
+API -> UC : ExecuteAsync(command)
+UC -> VAL : ValidateAndThrow(command)
+
+alt datos invalidos
+  VAL --> UC : ValidationException
+  UC --> API : error de validacion
+  API --> U : 400
+else datos validos
+  VAL --> UC : ok
+  UC -> REPO : CreateActividadInvestigativaAsync(...)
+  REPO -> DB : EXEC crear_actividad_investigativa
+  DB --> REPO : id_actividad
+  REPO --> UC : entidad creada
+  UC --> API : DTO
+  API --> U : 201 + ApiResponse
+end
+
+@enduml
